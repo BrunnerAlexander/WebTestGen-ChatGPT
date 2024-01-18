@@ -1,0 +1,204 @@
+Output 1 - Correct:
+@Test
+public void testValidSignInAndAddProductToCart() {
+    driver.get("http://localhost:8000/index.html");
+
+    // Observe Screen Sign In
+    assertTrue(driver.findElement(By.id("login-section")).isDisplayed());
+
+    // Try Valid User Name
+    driver.findElement(By.id("username")).sendKeys("user");
+
+    // Try Valid Password
+    driver.findElement(By.id("password")).sendKeys("pass");
+
+    // Click Commit
+    driver.findElement(By.id("login-button")).click();
+
+    // Observe Screen Product Page
+    new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("product-section")));
+    assertTrue(driver.findElement(By.id("product-section")).isDisplayed());
+
+    // Observe Product Name
+    String productName = "Product 1";
+    assertTrue(driver.findElement(By.xpath("//p[contains(text(), '" + productName + "')]")).isDisplayed());
+
+    // Click Add To Cart
+    driver.findElement(By.xpath("//p[contains(text(), '" + productName + "')]/button")).click();
+
+    // Navigate Shopping Cart
+    assertTrue(driver.findElement(By.id("cart")).isDisplayed());
+
+    // Observe $PRODUCT In Collection
+    assertTrue(driver.findElement(By.xpath("//ul[@id='cart']/li[contains(text(), '" + productName + "')]"))
+        .isDisplayed());
+}
+
+
+
+
+Output 2 - Failure:
+@Test
+public void testValidLoginAndAddProductToCart() {
+    driver.get("http://localhost:8000/index.html");
+    
+    // Login
+    driver.findElement(By.id("username")).sendKeys("user");
+    driver.findElement(By.id("password")).sendKeys("pass");
+    driver.findElement(By.id("login-button")).click();
+
+    // Wait for product page
+    new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("product-section")));
+
+    // Validate product page
+    assertTrue(driver.findElement(By.id("product-section")).isDisplayed());
+
+    // Add Product to Cart
+    String productName = "Product 1"; // Replace with $PRODUCT variable as required
+    driver.findElement(By.xpath("//button[contains(text(),'" + productName + "')]")).click();
+
+    // Navigate to Shopping Cart
+    driver.findElement(By.tagName("h3")).click(); // Assuming click on "Shopping Cart" header navigates to cart
+
+    // Check product in cart
+    List<WebElement> cartItems = driver.findElements(By.cssSelector("#cart li"));
+    boolean productFound = cartItems.stream().anyMatch(item -> item.getText().equals(productName));
+    assertTrue(productFound);
+}
+
+
+
+
+Output 3 - Correct:
+@Test
+public void testValidLoginAndAddToCart() {
+    driver.get("http://localhost:8000/index.html");
+
+    // Observe Screen Sign In
+    assertTrue(driver.findElement(By.id("login-section")).isDisplayed());
+
+    // Try Valid User Name
+    driver.findElement(By.id("username")).sendKeys("user");
+
+    // Try Valid Password
+    String validPassword = "pass"; // Replace with actual password if different
+    driver.findElement(By.id("password")).sendKeys(validPassword);
+
+    // Click Commit
+    driver.findElement(By.id("login-button")).click();
+
+    // Observe Screen Product Page
+    new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("product-section")));
+
+    // Observe Product Name
+    String expectedProductName = "Product 1"; // Replace with actual product name if different
+    assertTrue(driver.findElement(By.xpath("//p[contains(text(),'" + expectedProductName + "')]")).isDisplayed());
+
+    // Click Add To Cart
+    driver.findElement(By.xpath("//p[contains(text(),'" + expectedProductName + "')]/button")).click();
+
+    // Navigate Shopping Cart
+    driver.findElement(By.id("cart"));
+
+    // Observe Product in Collection
+    assertTrue(driver.findElement(By.xpath("//li[contains(text(),'" + expectedProductName + "')]")).isDisplayed());
+}
+
+
+
+
+Output 4 - Correct:
+@Test
+public void testProductPurchase() {
+    // Set up WebDriver and navigate to the application
+    driver.get("http://localhost:8000/index.html");
+
+    // Step 1: Observe Screen Sign In
+    WebElement loginSection = driver.findElement(By.id("login-section"));
+    Assert.assertTrue(loginSection.isDisplayed());
+
+    // Step 2: Try Valid User Name
+    WebElement usernameInput = driver.findElement(By.id("username"));
+    usernameInput.sendKeys("user"); // Assuming "user" is a valid username
+
+    // Step 3: Try Valid Password
+    WebElement passwordInput = driver.findElement(By.id("password"));
+    passwordInput.sendKeys("pass"); // Assuming "pass" is a valid password
+
+    // Step 4: Click Commit (Login)
+    WebElement loginButton = driver.findElement(By.id("login-button"));
+    loginButton.click();
+
+    // Step 5: Observe Screen Product Page
+    WebElement productSection = driver.findElement(By.id("product-section"));
+    Assert.assertTrue(productSection.isDisplayed());
+
+    // Step 6: Observe Product Name
+    String productName = "Product 1"; // Assuming "Product 1" is the product name
+    WebElement product = driver.findElement(By.xpath("//*[contains(text(), '" + productName + "')]"));
+    Assert.assertTrue(product.isDisplayed());
+
+    // Step 7: Click Add To Cart
+    WebElement addToCartButton = product.findElement(By.tagName("button"));
+    addToCartButton.click();
+
+    // Step 8: Navigate Shopping Cart
+    WebElement shoppingCart = driver.findElement(By.id("cart"));
+    Assert.assertTrue(shoppingCart.isDisplayed());
+
+    // Step 9: Observe $PRODUCT In Collection
+    WebElement addedProduct = shoppingCart.findElement(By.xpath("//*[contains(text(), '" + productName + "')]"));
+    Assert.assertTrue(addedProduct.isDisplayed());
+
+    // Additional step to log out for cleanup
+    WebElement logoutButton = driver.findElement(By.xpath("//button[contains(text(), 'Logout')]"));
+    logoutButton.click();
+}
+
+
+
+
+Output 5 - Correct:
+@Test
+public void testValidLoginAndAddToCart() {
+    driver.get("http://localhost:8000/index.html");
+
+    // Observe Screen Sign In
+    WebElement loginSection = driver.findElement(By.id("login-section"));
+    assertTrue(loginSection.isDisplayed());
+
+    // Try Valid User Name
+    WebElement usernameField = driver.findElement(By.id("username"));
+    usernameField.sendKeys("user");
+
+    // Try Valid Password
+    String validPassword = "pass"; // Replace with the actual password if different
+    WebElement passwordField = driver.findElement(By.id("password"));
+    passwordField.sendKeys(validPassword);
+
+    // Click Commit (Login)
+    WebElement loginButton = driver.findElement(By.id("login-button"));
+    loginButton.click();
+
+    // Observe Screen Product Page
+    WebDriverWait wait = new WebDriverWait(driver, 10);
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("product-section")));
+
+    // Observe Product Name
+    String productName = "Product 1"; // Replace with the actual product name if different
+    WebElement product = driver.findElement(By.xpath("//p[contains(text(), '" + productName + "')]"));
+    assertTrue(product.isDisplayed());
+
+    // Click Add To Cart
+    WebElement addToCartButton = product.findElement(By.tagName("button"));
+    addToCartButton.click();
+
+    // Navigate Shopping Cart
+    WebElement shoppingCart = driver.findElement(By.id("cart"));
+    assertTrue(shoppingCart.isDisplayed());
+
+    // Observe Product In Collection
+    List<WebElement> cartItems = shoppingCart.findElements(By.tagName("li"));
+    boolean isProductInCart = cartItems.stream().anyMatch(item -> item.getText().equals(productName));
+    assertTrue(isProductInCart);
+}

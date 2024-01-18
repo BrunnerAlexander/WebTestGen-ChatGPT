@@ -1,0 +1,145 @@
+Output 1 - Correct:
+@Test
+public void testAddProductToCart() {
+    // Open the application
+    driver.get("http://localhost:8000/index.html");
+
+    // Wait until the login section is visible
+    new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("login-section")));
+
+    // Login with predefined credentials
+    driver.findElement(By.id("username")).sendKeys("user");
+    driver.findElement(By.id("password")).sendKeys("pass");
+    driver.findElement(By.id("login-button")).click();
+
+    // Wait until the product section is visible
+    new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("product-section")));
+
+    // Click 'Add to Cart' for a specific product
+    String productName = "Product 1";
+    driver.findElement(By.xpath("//button[contains(text(), 'Add to Cart') and preceding-sibling::text()[contains(., '" + productName + "')]]")).click();
+
+    // Navigate to Shopping Cart
+    driver.findElement(By.xpath("//h3[contains(text(), 'Shopping Cart')]")).click();
+
+    // Assert the product is in the collection
+    boolean isProductInCart = driver.findElements(By.xpath("//li[contains(text(), '" + productName + "')]")).size() > 0;
+    assertTrue(isProductInCart);
+}
+
+
+
+
+Output 2 - Correct:
+@Test
+public void testAddProductToCart() {
+    // Navigate to the application
+    driver.get("http://localhost:8000/index.html");
+
+    // Wait for the login section to be visible
+    WebDriverWait wait = new WebDriverWait(driver, 10);
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("login-section")));
+
+    // Perform login
+    driver.findElement(By.id("username")).sendKeys("user");
+    driver.findElement(By.id("password")).sendKeys("pass");
+    driver.findElement(By.id("login-button")).click();
+
+    // Wait for the product section to be visible
+    wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("product-section")));
+
+    // Assert that the product section is displayed
+    assertTrue(driver.findElement(By.id("product-section")).isDisplayed());
+
+    // Click on 'Add to Cart' for Product 1
+    driver.findElement(By.xpath("//button[contains(text(),'Add to Cart')][1]")).click();
+
+    // Navigate to the shopping cart
+    // Assuming the shopping cart is visible on the same page after clicking 'Add to Cart'
+
+    // Assert that Product 1 is in the cart
+    List<WebElement> cartItems = driver.findElements(By.cssSelector("#cart li"));
+    boolean isProductInCart = cartItems.stream().anyMatch(item -> item.getText().equals("Product 1"));
+    assertTrue(isProductInCart);
+}
+
+
+
+
+Output 3 - Failure:
+@Test
+public void testAddProductToCart() {
+    // Navigate to the product page
+    driver.get("http://localhost:8000/index.html");
+
+    // Wait for the product section to be visible
+    new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("product-section")));
+
+    // Observe the Product Name and Click Add to Cart
+    String productName = "Product 1";
+    driver.findElement(By.xpath("//p[contains(text(),'" + productName + "')]/button")).click();
+
+    // Navigate to the Shopping Cart
+    driver.findElement(By.xpath("//h3[contains(text(),'Shopping Cart')]")).click();
+
+    // Check if Product is in the Collection
+    boolean isProductInCart = driver.findElements(By.xpath("//ul[@id='cart']/li[contains(text(),'" + productName + "')]"))
+                                     .size() > 0;
+    assertTrue(isProductInCart);
+}
+
+
+
+
+Output 4 - Failure:
+@Test
+public void testAddProductToCart() {
+    // Navigate to the application
+    driver.get("http://localhost:8000/index.html");
+
+    // Assume the product to add is "Product 1"
+    String productName = "Product 1";
+
+    // Observe the Product Page
+    WebElement productSection = new WebDriverWait(driver, 10)
+            .until(ExpectedConditions.visibilityOfElementLocated(By.id("product-section")));
+
+    // Observe Product Name
+    WebElement product = driver.findElement(By.xpath("//p[contains(text(), '" + productName + "')]"));
+
+    // Click Add To Cart for the specific product
+    product.findElement(By.xpath("./following-sibling::button")).click();
+
+    // Navigate to Shopping Cart
+    WebElement shoppingCart = driver.findElement(By.id("cart"));
+
+    // Observe the product in the collection
+    new WebDriverWait(driver, 10)
+            .until(ExpectedConditions.textToBePresentInElement(shoppingCart, productName));
+}
+
+
+
+
+Output 5 - Failure:
+@Test
+public void testAddProductToCart() {
+    // Set the path to the application
+    String baseUrl = "http://localhost:8000/index.html";
+    driver.get(baseUrl);
+
+    // Observe Screen Product Page
+    WebElement productSection = new WebDriverWait(driver, 10)
+            .until(ExpectedConditions.visibilityOfElementLocated(By.id("product-section")));
+
+    // Observe Product Name and Click Add To Cart
+    String productName = "Product 1";
+    driver.findElement(By.xpath("//button[contains(text(), 'Add to Cart')][preceding-sibling::text()[contains(., '" + productName + "')]]")).click();
+
+    // Navigate Shopping Cart
+    WebElement shoppingCart = driver.findElement(By.id("cart"));
+
+    // Observe Product in Collection
+    boolean isProductInCart = shoppingCart.findElements(By.xpath(".//li[contains(text(), '" + productName + "')]")).size() > 0;
+    assertTrue(isProductInCart);
+}

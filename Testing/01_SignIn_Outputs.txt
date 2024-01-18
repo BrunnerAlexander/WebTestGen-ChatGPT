@@ -1,0 +1,130 @@
+Output 1 - Correct:
+@Test
+public void testBlankUserNameSignIn() {
+    driver.get("http://localhost:8000/index.html");
+
+    driver.findElement(By.id("username")).clear();
+    driver.findElement(By.id("login-button")).click();
+
+    boolean isErrorVisible = driver.findElement(By.id("login-error")).isDisplayed();
+    boolean isCommitDisabled = !driver.findElement(By.id("login-button")).isEnabled();
+
+    assertTrue(isErrorVisible || isCommitDisabled);
+}
+
+
+
+
+Output 2 - Correct:
+@Test
+public void testBlankUserName() {
+    // Navigate to the application
+    driver.get("http://localhost:8000/index.html");
+
+    // Ensure Login section is visible
+    WebElement loginSection = driver.findElement(By.id("login-section"));
+    Assert.assertTrue(loginSection.isDisplayed());
+
+    // Clear username and password fields
+    driver.findElement(By.id("username")).clear();
+    driver.findElement(By.id("password")).clear();
+
+    // Click on login button without entering username
+    driver.findElement(By.id("login-button")).click();
+
+    // Observe for error message or disabled login button
+    try {
+        WebElement errorMessage = driver.findElement(By.id("login-error"));
+        Assert.assertTrue(errorMessage.isDisplayed());
+    } catch (NoSuchElementException e) {
+        WebElement loginButton = driver.findElement(By.id("login-button"));
+        Assert.assertFalse(loginButton.isEnabled());
+    }
+}
+
+
+
+
+Output 3 - Correct:
+@Test
+public void testSignInWithBlankUsername() {
+    driver.get("http://localhost:8000/index.html");
+
+    // Try blank username
+    WebElement usernameField = driver.findElement(By.id("username"));
+    usernameField.clear();
+    usernameField.sendKeys("");
+
+    // Click commit (login button)
+    WebElement loginButton = driver.findElement(By.id("login-button"));
+    loginButton.click();
+
+    // Check for error message or disabled commit
+    try {
+        WebElement errorMessage = driver.findElement(By.id("login-error"));
+        assertTrue(errorMessage.isDisplayed());
+    } catch (NoSuchElementException e) {
+        assertFalse(loginButton.isEnabled());
+    }
+}
+
+
+
+
+Output 4 - Correct:
+@Test
+public void testBlankUserNameSignIn() {
+    // Open the application
+    driver.get("http://localhost:8000/index.html");
+
+    // Ensure the login section is visible
+    WebElement loginSection = driver.findElement(By.id("login-section"));
+    assertTrue(loginSection.isDisplayed());
+
+    // Clear the username field and leave it blank
+    WebElement usernameField = driver.findElement(By.id("username"));
+    usernameField.clear();
+
+    // Click the login button
+    WebElement loginButton = driver.findElement(By.id("login-button"));
+    loginButton.click();
+
+    // Check for error message or disabled commit button
+    try {
+        WebElement errorMessage = driver.findElement(By.id("login-error"));
+        assertTrue(errorMessage.isDisplayed());
+    } catch (NoSuchElementException e) {
+        // If error message is not found, check if commit button is disabled
+        assertFalse(loginButton.isEnabled());
+    }
+}
+
+
+
+
+Output 5 - Correct:
+@Test
+public void testBlankUserNameSignIn() {
+    driver.get("http://localhost:8000/index.html");
+
+    // Step 1: Observe Screen Sign In
+    WebElement loginSection = driver.findElement(By.id("login-section"));
+    assertTrue(loginSection.isDisplayed());
+
+    // Step 2: Try Blank User Name
+    WebElement usernameField = driver.findElement(By.id("username"));
+    usernameField.clear();
+    WebElement passwordField = driver.findElement(By.id("password"));
+    passwordField.sendKeys("dummyPassword"); // assuming any password
+
+    // Step 3: Click Commit
+    WebElement loginButton = driver.findElement(By.id("login-button"));
+    loginButton.click();
+
+    // Step 4: Observe ErrorMessage OR Observe Disabled Commit
+    WebElement errorMessage = driver.findElement(By.id("login-error"));
+    boolean isErrorVisible = errorMessage.isDisplayed();
+    boolean isLoginButtonEnabled = loginButton.isEnabled();
+
+    assertTrue(isErrorVisible || !isLoginButtonEnabled);
+}

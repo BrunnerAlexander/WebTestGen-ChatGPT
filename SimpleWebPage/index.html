@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DemoShop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="login-section">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="login-button" onclick="login()">Login</button>
+        <p id="login-error" style="display:none;color:red;">Invalid username or password</p>
+        <p>or <a href="#" onclick="showRegistration()">Register</a></p>
+    </div>
+
+    <div id="registration-section" style="display:none;">
+        <h2>Register</h2>
+        <input type="text" id="new-username" placeholder="Username">
+        <input type="password" id="new-password" placeholder="Password">
+        <input type="password" id="confirm-password" placeholder="Confirm Password">
+        <button onclick="register()">Register</button>
+        <p id="registration-error" style="display:none;color:red;">Error in registration</p>
+    </div>
+
+    <div id="product-section" style="display:none;">
+        <button onclick="logout()" style="float:right;">Logout</button>
+        <h2>Products</h2>
+        <div>
+            <p>Product 1 <button onclick="addToCart('Product 1')">Add to Cart</button></p>
+            <p>Product 2 <button onclick="addToCart('Product 2')">Add to Cart</button></p>
+            <p>Product 3 <button onclick="addToCart('Product 3')">Add to Cart</button></p>
+        </div>
+        <h3>Shopping Cart</h3>
+        <ul id="cart"></ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
